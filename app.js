@@ -15,22 +15,31 @@ var i18n = {}
 
 parents.forEach((parent) => {
   var leader = `${decamelize(parent, ' ')}`
-  var files = walk(`${src}/${parent}`)
+      leader = ` UI - app/${parent} `
+      leader = leader.padStart(40, '-')
+      leader = leader.padEnd(60, '-')
 
   i18n[leader] = {}
   
+  var files = walk(`${src}/${parent}`)
   files.forEach(file => {
+
+    // Get all of the ng-binds targeted for localization
     var data = fs.readFileSync(file, 'utf8')
     var ngBinds = data.match(ngRegEx) || []
   
     ngBinds.forEach(ngBind => {
       ngBind = ngBind.replace('ng-bind="::i18n.', '')
       ngBind = ngBind.replace('"', '')
+      
+      // Create an entry for this binding at the parent key
+      i18n[leader][ngBind] = {}
 
+      // Decamelize and Title Case the binding
       var english = decamelize(ngBind, ' ')
           english = toTitleCase(english)
       
-      i18n[leader][ngBind] = {}
+      // If you want more language keys, add them below
       i18n[leader][ngBind]['en-us'] = english
     })
   })
@@ -38,7 +47,7 @@ parents.forEach((parent) => {
 
 })
 
-console.log(i18n)
+fs.writeFile('./dist/i18n.json', JSON.stringify(i18n, null, 2))
 
 
 
