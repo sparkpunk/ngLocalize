@@ -1,0 +1,17 @@
+{
+  "name": "nglocalize",
+  "version": "1.0.0",
+  "description": "search directories/subdirectories for ng-bind attributes and automatically create an i18n.json populated with keys",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "localize",
+    "internationalization",
+    "i18n"
+  ],
+  "author": "Zak",
+  "license": "ISC"
+}
